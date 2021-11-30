@@ -28,10 +28,10 @@ WriteTimeout = 60
 
 [database]
 Type = mysql
-User = zhgmysql
-Password = 4wXX0123.com
-Host = 10.144.201.235:4408
-Name = quickly_update
+User = ***
+Password = 
+Host = ***:4408
+Name = ***
 TablePrefix = 
 
 [redis]
