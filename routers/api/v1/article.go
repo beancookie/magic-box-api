@@ -13,7 +13,6 @@ import (
 	"github.com/BeanCookie/magic-box-api/pkg/setting"
 	"github.com/BeanCookie/magic-box-api/pkg/util"
 	"github.com/BeanCookie/magic-box-api/service/article_service"
-	"github.com/BeanCookie/magic-box-api/service/tag_service"
 )
 
 // @Summary Get a single article

@@ -11,8 +11,6 @@ import (
 
 	"github.com/BeanCookie/magic-box-api/middleware/jwt"
 	"github.com/BeanCookie/magic-box-api/pkg/export"
-	"github.com/BeanCookie/magic-box-api/pkg/qrcode"
-	"github.com/BeanCookie/magic-box-api/pkg/upload"
 	"github.com/BeanCookie/magic-box-api/routers/api"
 	"github.com/BeanCookie/magic-box-api/routers/api/v1"
 )
