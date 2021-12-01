@@ -1,0 +1,3 @@
+{
+    "swagger.tpl":"// @Summary\n// @Description\n// @Produce json\n// @Param p1 body int true \"P1\"\n// @Param p2 body string true \"P2\"\n// @Success 200 {object} app.Response\n// @Failure 500 {object} app.Responsen\n// @Router {url} [post]"
+}

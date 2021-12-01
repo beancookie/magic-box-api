@@ -3,12 +3,13 @@ package v1
 import (
 	"net/http"
 
-	"github.com/unknwon/com"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
+	"github.com/unknwon/com"
 
 	"github.com/BeanCookie/magic-box-api/pkg/app"
 	"github.com/BeanCookie/magic-box-api/pkg/e"
+	"github.com/BeanCookie/magic-box-api/pkg/logging"
 	"github.com/BeanCookie/magic-box-api/pkg/setting"
 	"github.com/BeanCookie/magic-box-api/pkg/util"
 	"github.com/BeanCookie/magic-box-api/service/article_service"
@@ -16,7 +17,7 @@ import (
 
 // @Summary Get a single article
 // @Produce  json
-// @Param id path int true "ID"
+// @Param id path int true "Id"
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
 // @Router /api/v1/articles/{id} [get]
@@ -54,9 +55,6 @@ func GetArticle(c *gin.Context) {
 
 // @Summary Get multiple articles
 // @Produce  json
-// @Param tag_id body int false "TagID"
-// @Param state body int false "State"
-// @Param created_by body int false "CreatedBy"
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
 // @Router /api/v1/articles [get]
@@ -69,12 +67,7 @@ func GetArticles(c *gin.Context) {
 		state = com.StrTo(arg).MustInt()
 		valid.Range(state, 0, 1, "state")
 	}
-
-	tagId := -1
-	if arg := c.PostForm("tag_id"); arg != "" {
-		tagId = com.StrTo(arg).MustInt()
-		valid.Min(tagId, 1, "tag_id")
-	}
+	logging.Info(state)
 
 	if valid.HasErrors() {
 		app.MarkErrors(valid.Errors)
@@ -83,13 +76,12 @@ func GetArticles(c *gin.Context) {
 	}
 
 	articleService := article_service.Article{
-		TagID:    tagId,
-		State:    state,
 		PageNum:  util.GetPage(c),
 		PageSize: setting.AppSetting.PageSize,
 	}
 
 	total, err := articleService.Count()
+	logging.Info(total)
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_COUNT_ARTICLE_FAIL, nil)
 		return
@@ -104,6 +96,7 @@ func GetArticles(c *gin.Context) {
 	data := make(map[string]interface{})
 	data["lists"] = articles
 	data["total"] = total
+	data["a"] = "ss"
 
 	appG.Response(http.StatusOK, e.SUCCESS, data)
 }

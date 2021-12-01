@@ -11,8 +11,8 @@ import (
 	"github.com/BeanCookie/magic-box-api/pkg/gredis"
 	"github.com/BeanCookie/magic-box-api/pkg/logging"
 	"github.com/BeanCookie/magic-box-api/pkg/setting"
-	"github.com/BeanCookie/magic-box-api/routers"
 	"github.com/BeanCookie/magic-box-api/pkg/util"
+	"github.com/BeanCookie/magic-box-api/routers"
 )
 
 func init() {
@@ -25,7 +25,7 @@ func init() {
 
 // @title Golang Gin API
 // @version 1.0
-// @description An example of gin
+// @description An example of gins
 // @termsOfService https://github.com/BeanCookie/magic-box-api
 // @license.name MIT
 // @license.url https://github.com/BeanCookie/magic-box-api/blob/master/LICENSE
@@ -49,6 +49,5 @@ func main() {
 	log.Printf("[info] start http server listening %s", endPoint)
 
 	server.ListenAndServe()
-
 
 }

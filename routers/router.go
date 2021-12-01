@@ -4,12 +4,11 @@ import (
 	"github.com/gin-gonic/gin"
 
 	_ "github.com/BeanCookie/magic-box-api/docs"
-	"github.com/swaggo/gin-swagger"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 
-	"github.com/BeanCookie/magic-box-api/middleware/jwt"
 	"github.com/BeanCookie/magic-box-api/routers/api"
-	"github.com/BeanCookie/magic-box-api/routers/api/v1"
+	v1 "github.com/BeanCookie/magic-box-api/routers/api/v1"
 )
 
 // InitRouter initialize routing information
@@ -22,10 +21,11 @@ func InitRouter() *gin.Engine {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	apiv1 := r.Group("/api/v1")
-	apiv1.Use(jwt.JWT())
+	// apiv1.Use(jwt.JWT())
 	{
 		//新建文章
 		apiv1.POST("/articles", v1.AddArticle)
+		apiv1.GET("/articles", v1.GetArticles)
 	}
 
 	return r
