@@ -3,7 +3,6 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 
-	_ "github.com/BeanCookie/magic-box-api/docs"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 
@@ -23,9 +22,7 @@ func InitRouter() *gin.Engine {
 	apiv1 := r.Group("/api/v1")
 	// apiv1.Use(jwt.JWT())
 	{
-		//新建文章
-		apiv1.POST("/articles", v1.AddArticle)
-		apiv1.GET("/articles", v1.GetArticles)
+		apiv1.GET("/juejin/articles", v1.GetJuejinArticles)
 	}
 
 	return r

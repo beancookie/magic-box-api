@@ -7,10 +7,24 @@ import (
 type Tag struct {
 	Model
 
-	Name       string `json:"name"`
-	CreatedBy  string `json:"created_by"`
-	ModifiedBy string `json:"modified_by"`
-	State      int    `json:"state"`
+	ID               string `gorm:"primary_key" json:"string"`
+	Name             string `json:"name"`
+	ConcernUserCount int    `json:"concern_user_count"`
+	PostArticleCount int    `json:"post_article_count"`
+}
+
+// ExistTagByID determines whether a Tag exists based on the ID
+func ExistTagByID(id string) (bool, error) {
+	var tag Tag
+	err := db.Select("id").Where("id = ? AND deleted_on = ? ", id, 0).First(&tag).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return false, err
+	}
+	if tag.ID != "" {
+		return true, nil
+	}
+
+	return false, nil
 }
 
 // ExistTagByName checks if there is a tag with the same name
@@ -21,7 +35,7 @@ func ExistTagByName(name string) (bool, error) {
 		return false, err
 	}
 
-	if tag.ID > 0 {
+	if tag.ID != "" {
 		return true, nil
 	}
 
@@ -29,11 +43,11 @@ func ExistTagByName(name string) (bool, error) {
 }
 
 // AddTag Add a Tag
-func AddTag(name string, state int, createdBy string) error {
+func AddTag(name string, concernUserCount int, postArticleCount int) error {
 	tag := Tag{
-		Name:      name,
-		State:     state,
-		CreatedBy: createdBy,
+		Name:             name,
+		ConcernUserCount: concernUserCount,
+		PostArticleCount: postArticleCount,
 	}
 	if err := db.Create(&tag).Error; err != nil {
 		return err
@@ -70,45 +84,4 @@ func GetTagTotal(maps interface{}) (int, error) {
 	}
 
 	return count, nil
-}
-
-// ExistTagByID determines whether a Tag exists based on the ID
-func ExistTagByID(id int) (bool, error) {
-	var tag Tag
-	err := db.Select("id").Where("id = ? AND deleted_on = ? ", id, 0).First(&tag).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
-		return false, err
-	}
-	if tag.ID > 0 {
-		return true, nil
-	}
-
-	return false, nil
-}
-
-// DeleteTag delete a tag
-func DeleteTag(id int) error {
-	if err := db.Where("id = ?", id).Delete(&Tag{}).Error; err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// EditTag modify a single tag
-func EditTag(id int, data interface{}) error {
-	if err := db.Model(&Tag{}).Where("id = ? AND deleted_on = ? ", id, 0).Updates(data).Error; err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// CleanAllTag clear all tag
-func CleanAllTag() (bool, error) {
-	if err := db.Unscoped().Where("deleted_on != ? ", 0).Delete(&Tag{}).Error; err != nil {
-		return false, err
-	}
-
-	return true, nil
 }

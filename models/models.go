@@ -7,14 +7,14 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 
-	"github.com/BeanCookie/magic-box-api/pkg/setting"
 	"time"
+
+	"github.com/BeanCookie/magic-box-api/pkg/setting"
 )
 
 var db *gorm.DB
 
 type Model struct {
-	ID         int `gorm:"primary_key" json:"id"`
 	CreatedOn  int `json:"created_on"`
 	ModifiedOn int `json:"modified_on"`
 	DeletedOn  int `json:"deleted_on"`
@@ -31,10 +31,6 @@ func Setup() {
 
 	if err != nil {
 		log.Fatalf("models.Setup err: %v", err)
-	}
-
-	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
-		return setting.DatabaseSetting.TablePrefix + defaultTableName
 	}
 
 	db.SingularTable(true)

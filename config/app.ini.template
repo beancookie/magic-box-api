@@ -1,23 +1,6 @@
 [app]
 PageSize = 10
 JwtSecret = 233
-PrefixUrl = http://127.0.0.1:8000
-
-RuntimeRootPath = runtime/
-
-ImageSavePath = upload/images/
-# MB
-ImageMaxSize = 5
-ImageAllowExts = .jpg,.jpeg,.png
-
-ExportSavePath = export/
-QrCodeSavePath = qrcode/
-FontSavePath = fonts/
-
-LogSavePath = logs/
-LogSaveName = log
-LogFileExt = log
-TimeFormat = 20060102
 
 [server]
 #debug or release
@@ -32,7 +15,6 @@ User = ***
 Password = 
 Host = ***:4408
 Name = ***
-TablePrefix = 
 
 [redis]
 Host = 127.0.0.1:6379
@@ -40,3 +22,6 @@ Password =
 MaxIdle = 30
 MaxActive = 30
 IdleTimeout = 200
+
+[third-partys]
+JueJin = https://api.juejin.cn

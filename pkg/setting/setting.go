@@ -10,22 +10,6 @@ import (
 type App struct {
 	JwtSecret string
 	PageSize  int
-	PrefixUrl string
-
-	RuntimeRootPath string
-
-	ImageSavePath  string
-	ImageMaxSize   int
-	ImageAllowExts []string
-
-	ExportSavePath string
-	QrCodeSavePath string
-	FontSavePath   string
-
-	LogSavePath string
-	LogSaveName string
-	LogFileExt  string
-	TimeFormat  string
 }
 
 var AppSetting = &App{}
@@ -40,12 +24,11 @@ type Server struct {
 var ServerSetting = &Server{}
 
 type Database struct {
-	Type        string
-	User        string
-	Password    string
-	Host        string
-	Name        string
-	TablePrefix string
+	Type     string
+	User     string
+	Password string
+	Host     string
+	Name     string
 }
 
 var DatabaseSetting = &Database{}
@@ -59,6 +42,12 @@ type Redis struct {
 }
 
 var RedisSetting = &Redis{}
+
+type ThirdPartys struct {
+	JueJin string
+}
+
+var ThirdPartysSetting = &ThirdPartys{}
 
 var cfg *ini.File
 
@@ -74,8 +63,8 @@ func Setup() {
 	mapTo("server", ServerSetting)
 	mapTo("database", DatabaseSetting)
 	mapTo("redis", RedisSetting)
+	mapTo("third-partys", ThirdPartysSetting)
 
-	AppSetting.ImageMaxSize = AppSetting.ImageMaxSize * 1024 * 1024
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second
 	ServerSetting.WriteTimeout = ServerSetting.WriteTimeout * time.Second
 	RedisSetting.IdleTimeout = RedisSetting.IdleTimeout * time.Second

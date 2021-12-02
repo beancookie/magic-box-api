@@ -9,7 +9,6 @@ import (
 
 	"github.com/BeanCookie/magic-box-api/models"
 	"github.com/BeanCookie/magic-box-api/pkg/gredis"
-	"github.com/BeanCookie/magic-box-api/pkg/logging"
 	"github.com/BeanCookie/magic-box-api/pkg/setting"
 	"github.com/BeanCookie/magic-box-api/pkg/util"
 	"github.com/BeanCookie/magic-box-api/routers"
@@ -18,9 +17,9 @@ import (
 func init() {
 	setting.Setup()
 	models.Setup()
-	logging.Setup()
 	gredis.Setup()
 	util.Setup()
+	// schedule.Setup()
 }
 
 // @title Golang Gin API
