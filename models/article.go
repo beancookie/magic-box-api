@@ -10,6 +10,7 @@ type Article struct {
 
 	ID           string `gorm:"primary_key" json:"id"`
 	Title        string `json:"title"`
+	CoverImage   string `json:"cover_image"`
 	BriefContent string `json:"brief_content"`
 	CollectCount int    `json:"collect_count"`
 	CommentCount int    `json:"comment_count"`
@@ -28,6 +29,7 @@ func AddArticle(articleData map[string]interface{},
 	article := Article{
 		ID:           articleData["article_id"].(string),
 		Title:        articleData["title"].(string),
+		CoverImage:   articleData["cover_image"].(string),
 		BriefContent: articleData["brief_content"].(string),
 		CollectCount: int(articleData["collect_count"].(float64)),
 		CommentCount: int(articleData["comment_count"].(float64)),
