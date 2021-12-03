@@ -1,6 +1,8 @@
 package models
 
 import (
+	"strings"
+
 	"github.com/jinzhu/gorm"
 	"github.com/rs/zerolog/log"
 	"github.com/tidwall/gjson"
@@ -54,8 +56,10 @@ func AddCsdnArticle(data gjson.Result) error {
 	if len(picList) > 0 {
 		coverImage = picList[0].String()
 	}
+	splitUrl := strings.Split(data.Get("articleDetailUrl").String(), "/")
+	id := splitUrl[len(splitUrl)-1]
 	article := Article{
-		ID:         data.Get("articleDetailUrl").String(),
+		ID:         id,
 		Title:      data.Get("articleTitle").String(),
 		UserName:   data.Get("userName").String(),
 		CoverImage: coverImage,
