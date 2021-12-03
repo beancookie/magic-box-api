@@ -22,7 +22,7 @@ func InitRouter() *gin.Engine {
 	apiv1 := r.Group("/api/v1")
 	// apiv1.Use(jwt.JWT())
 	{
-		apiv1.GET("/juejin/articles", v1.GetJuejinArticles)
+		apiv1.GET("/articles", v1.GetArticles)
 	}
 
 	return r

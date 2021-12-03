@@ -20,6 +20,8 @@ func init() {
 	gredis.Setup()
 	util.Setup()
 	// schedule.Setup()
+	// juejin_service.ParseArticles("https://api.juejin.cn/recommend_api/v1/article/recommend_cate_feed")
+	// csdn_service.ParseArticles("https://blog.csdn.net/phoenix/web/blog/hot-rank?page=0&pageSize=25")
 }
 
 // @title Golang Gin API

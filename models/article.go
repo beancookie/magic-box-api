@@ -3,7 +3,11 @@ package models
 import (
 	"github.com/jinzhu/gorm"
 	"github.com/rs/zerolog/log"
+	"github.com/tidwall/gjson"
 )
+
+const JUEJIN = "juejin"
+const CSDN = "csdn"
 
 type Article struct {
 	Model
@@ -15,26 +19,24 @@ type Article struct {
 	CollectCount int    `json:"collect_count"`
 	CommentCount int    `json:"comment_count"`
 
-	UserID string `json:"user_id"`
-	User   User   `json:"user"`
+	// UserID string `json:"user_id"`
+	// User   User   `json:"user"`
 
-	CategoryID string   `json:"category_id"`
-	Category   Category `json:"category"`
+	// CategoryID string   `json:"category_id"`
+	// Category   Category `json:"category"`
+	Platform string `json:"Platform"`
 }
 
-func AddArticle(articleData map[string]interface{},
-	userData map[string]interface{},
-	categoryData map[string]interface{},
-) error {
+func AddJuejinArticle(data gjson.Result) error {
+	log.Info().Msgf("add article %s", data.Get("title").String())
 	article := Article{
-		ID:           articleData["article_id"].(string),
-		Title:        articleData["title"].(string),
-		CoverImage:   articleData["cover_image"].(string),
-		BriefContent: articleData["brief_content"].(string),
-		CollectCount: int(articleData["collect_count"].(float64)),
-		CommentCount: int(articleData["comment_count"].(float64)),
-		UserID:       userData["user_id"].(string),
-		CategoryID:   categoryData["category_id"].(string),
+		ID:           data.Get("article_id").String(),
+		Title:        data.Get("title").String(),
+		CoverImage:   data.Get("cover_image").String(),
+		BriefContent: data.Get("brief_content").String(),
+		CollectCount: int(data.Get("collect_count").Int()),
+		CommentCount: int(data.Get("comment_count").Int()),
+		Platform:     JUEJIN,
 	}
 	if err := db.Create(&article).Error; err != nil {
 		log.Info().Msgf("%v", article)
@@ -43,9 +45,29 @@ func AddArticle(articleData map[string]interface{},
 	return nil
 }
 
-func ExistArticleById(id string) (bool, error) {
+func AddCsdnArticle(data gjson.Result) error {
+	log.Info().Msgf("add article %s", data.Get("articleTitle").String())
+	picList := data.Get("picList").Array()
+	coverImage := ""
+	if len(picList) > 0 {
+		coverImage = picList[0].String()
+	}
+	article := Article{
+		ID:         data.Get("articleDetailUrl").String(),
+		Title:      data.Get("articleTitle").String(),
+		CoverImage: coverImage,
+		Platform:   CSDN,
+	}
+	if err := db.Create(&article).Error; err != nil {
+		log.Info().Msgf("%v", article)
+		return err
+	}
+	return nil
+}
+
+func ExistArticleByIdAndPlatform(id string, platform string) (bool, error) {
 	var article Article
-	err := db.Select("id").Where("id = ? AND deleted_on = ? ", id, 0).First(&article).Error
+	err := db.Select("id").Where("id = ? AND platform = ? AND deleted_on = ? ", id, platform, 0).First(&article).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return false, err
 	}
