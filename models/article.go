@@ -19,7 +19,9 @@ type Article struct {
 	CollectCount int    `json:"collect_count"`
 	CommentCount int    `json:"comment_count"`
 
-	// UserID string `json:"user_id"`
+	UserID   string `json:"user_id"`
+	UserName string `json:"user_name"`
+
 	// User   User   `json:"user"`
 
 	// CategoryID string   `json:"category_id"`
@@ -55,6 +57,7 @@ func AddCsdnArticle(data gjson.Result) error {
 	article := Article{
 		ID:         data.Get("articleDetailUrl").String(),
 		Title:      data.Get("articleTitle").String(),
+		UserName:   data.Get("userName").String(),
 		CoverImage: coverImage,
 		Platform:   CSDN,
 	}
