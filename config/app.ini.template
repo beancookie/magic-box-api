@@ -25,3 +25,4 @@ IdleTimeout = 200
 
 [third-partys]
 JueJin = https://api.juejin.cn
+Csdn = https://blog.csdn.net

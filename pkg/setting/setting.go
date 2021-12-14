@@ -8,8 +8,9 @@ import (
 )
 
 type App struct {
-	JwtSecret string
-	PageSize  int
+	JwtSecret    string
+	PageSize     int
+	ScheduleCron string
 }
 
 var AppSetting = &App{}
@@ -45,6 +46,7 @@ var RedisSetting = &Redis{}
 
 type ThirdPartys struct {
 	JueJin string
+	Csdn   string
 }
 
 var ThirdPartysSetting = &ThirdPartys{}

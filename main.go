@@ -12,6 +12,7 @@ import (
 	"github.com/BeanCookie/magic-box-api/pkg/setting"
 	"github.com/BeanCookie/magic-box-api/pkg/util"
 	"github.com/BeanCookie/magic-box-api/routers"
+	"github.com/BeanCookie/magic-box-api/schedule"
 )
 
 func init() {
@@ -19,8 +20,7 @@ func init() {
 	models.Setup()
 	gredis.Setup()
 	util.Setup()
-	// schedule.Setup()
-	// juejin_service.ParseArticles("https://api.juejin.cn/recommend_api/v1/article/recommend_cate_feed")
+	schedule.Setup()
 	// csdn_service.ParseArticles("https://blog.csdn.net/phoenix/web/blog/hot-rank?page=0&pageSize=25")
 }
 
