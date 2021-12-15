@@ -36,7 +36,8 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         source: "magic-box-api"         
         target: ${{ secrets.SITE_DIR }}    
-    - name: Restart
+        
+    - name: Restart PM2
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
