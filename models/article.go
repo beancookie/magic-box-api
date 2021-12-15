@@ -1,8 +1,7 @@
 package models
 
 import (
-	"strings"
-
+	"github.com/BeanCookie/magic-box-api/pkg/util"
 	"github.com/jinzhu/gorm"
 	"github.com/rs/zerolog/log"
 	"github.com/tidwall/gjson"
@@ -56,9 +55,8 @@ func AddCsdnArticle(data gjson.Result) error {
 	if len(picList) > 0 {
 		coverImage = picList[0].String()
 	}
-	splitUrl := strings.Split(data.Get("articleDetailUrl").String(), "/")
-	log.Info().Msgf("url %v", splitUrl)
-	id := splitUrl[len(splitUrl)-1]
+	id := util.ParseCsdnId(data.Get("articleDetailUrl").String())
+
 	article := Article{
 		ID:         id,
 		Title:      data.Get("articleTitle").String(),
