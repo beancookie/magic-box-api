@@ -31,8 +31,8 @@ jobs:
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.host }}
-        username: ${{ secrets.user }}
-        key: ${{ secrets.serverKey }}
+        username: ${{ secrets.username }}
+        password: ${{ secrets.password }}
         port: ${{ secrets.port }}
         source: "magic-box-api"         
         target: ${{ secrets.siteDir }}    
@@ -40,8 +40,8 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.host }}
-        username: ${{ secrets.user }}
-        key: ${{ secrets.serverKey }}
+        username: ${{ secrets.username }}
+        password: ${{ secrets.password }}
         port: ${{ secrets.port }}
         script:           
-          pm2 restart ${{ secrets.jobId }}
+          pm2 restart ${{ secrets.pm2Id }}
