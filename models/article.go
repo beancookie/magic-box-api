@@ -57,6 +57,7 @@ func AddCsdnArticle(data gjson.Result) error {
 		coverImage = picList[0].String()
 	}
 	splitUrl := strings.Split(data.Get("articleDetailUrl").String(), "/")
+	log.Info().Msgf("url %v", splitUrl)
 	id := splitUrl[len(splitUrl)-1]
 	article := Article{
 		ID:         id,
@@ -75,6 +76,18 @@ func AddCsdnArticle(data gjson.Result) error {
 func ExistArticleByIdAndPlatform(id string, platform string) (bool, error) {
 	var article Article
 	err := db.Select("id").Where("id = ? AND platform = ? AND deleted_on = ? ", id, platform, 0).First(&article).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return false, err
+	}
+	if article.ID != "" {
+		return true, nil
+	}
+	return false, nil
+}
+
+func ExistArticleByTitleAndPlatform(title string, platform string) (bool, error) {
+	var article Article
+	err := db.Select("title").Where("title = ? AND platform = ? AND deleted_on = ? ", title, platform, 0).First(&article).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return false, err
 	}

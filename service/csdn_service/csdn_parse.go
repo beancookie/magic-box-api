@@ -21,14 +21,16 @@ func ParseArticles(url string) {
 		log.Error().Msgf("%v", err)
 	}
 	resJson := gjson.Parse(string(res.Body()))
+	log.Info().Msgf("%s", resJson)
 	if resJson.Get(CODE).Int() == 200 {
 		resJson.Get(DATA).ForEach(func(index, article gjson.Result) bool {
-			// existed, _ := models.ExistArticleByIdAndPlatform(article.Get("").String(), models.CSDN)
-			// if !existed {
-			// 	if article.Value() != nil {
-			models.AddCsdnArticle(article)
-			// 	}
-			// }
+			existed, _ := models.ExistArticleByTitleAndPlatform(article.Get("articleTitle").String(), models.CSDN)
+			log.Info().Msgf("%v", article)
+			if !existed {
+				if article.Value() != nil {
+					models.AddCsdnArticle(article)
+				}
+			}
 			return true
 		})
 	}

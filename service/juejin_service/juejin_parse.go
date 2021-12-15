@@ -9,8 +9,8 @@ import (
 
 const ERR_NO = "err_no"
 const DATA = "data"
-const ITEM_INFO = "item_info"
 const ARTICLE_INFO = "article_info"
+const ITEM_INFO = "item_info"
 const AUTHOR_USER_INFO = "author_user_info"
 const CATEGORY = "category"
 const TAGS = "tags"
@@ -33,7 +33,7 @@ func ParseArticles(url string) {
 	resJson := gjson.Parse(string(res.Body()))
 	if resJson.Get(ERR_NO).Int() == 0 {
 		resJson.Get(DATA).ForEach(func(index, value gjson.Result) bool {
-			article := value.Get(ARTICLE_INFO)
+			article := value.Get(ITEM_INFO).Get(ARTICLE_INFO)
 			existed, _ := models.ExistArticleByIdAndPlatform(article.Get(ARTICLE_ID).String(), models.JUEJIN)
 			if !existed {
 				if article.Value() != nil {

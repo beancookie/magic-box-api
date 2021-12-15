@@ -1,6 +1,7 @@
 [app]
 PageSize = 10
 JwtSecret = 233
+ScheduleCron = 0 */1 * * * *
 
 [server]
 #debug or release
@@ -13,11 +14,11 @@ WriteTimeout = 60
 Type = mysql
 User = ***
 Password = 
-Host = ***:4408
+Host = ***:3306
 Name = ***
 
 [redis]
-Host = 127.0.0.1:6379
+Host = ***:6379
 Password =
 MaxIdle = 30
 MaxActive = 30
