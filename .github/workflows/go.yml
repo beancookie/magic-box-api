@@ -23,9 +23,7 @@ jobs:
 
     - name: Test
       run: go test -v
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
+      
     - name: SCP
       uses: appleboy/scp-action@master
       with:
