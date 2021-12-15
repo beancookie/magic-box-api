@@ -17,11 +17,10 @@ import (
 
 func init() {
 	setting.Setup()
+	util.SetupJwt()
 	models.Setup()
 	gredis.Setup()
-	util.Setup()
 	schedule.Setup()
-	// csdn_service.ParseArticles("https://blog.csdn.net/phoenix/web/blog/hot-rank?page=0&pageSize=25")
 }
 
 // @title Golang Gin API

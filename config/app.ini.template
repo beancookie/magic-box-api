@@ -4,8 +4,7 @@ JwtSecret = 233
 ScheduleCron = 0 */1 * * * *
 
 [server]
-#debug or release
-RunMode = debug
+RunMode = debug # debug or release
 HttpPort = 8000
 ReadTimeout = 60
 WriteTimeout = 60
@@ -25,5 +24,5 @@ MaxActive = 30
 IdleTimeout = 200
 
 [third-partys]
-JueJin = https://api.juejin.cn
-Csdn = https://blog.csdn.net
+JueJin = https://api.juejin.cn/recommend_api/v1/article/recommend_all_feed
+Csdn = https://blog.csdn.net/phoenix/web/blog/hot-rank?page=0&pageSize=25

@@ -3,10 +3,15 @@ package util
 import (
 	"time"
 
+	"github.com/BeanCookie/magic-box-api/pkg/setting"
 	"github.com/dgrijalva/jwt-go"
 )
 
 var jwtSecret []byte
+
+func SetupJwt() {
+	jwtSecret = []byte(setting.AppSetting.JwtSecret)
+}
 
 type Claims struct {
 	Username string `json:"username"`
