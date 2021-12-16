@@ -27,7 +27,7 @@ type Article struct {
 
 	// CategoryID string   `json:"category_id"`
 	// Category   Category `json:"category"`
-	Platform string `json:"Platform"`
+	Platform string `json:"platform"`
 }
 
 func AddJuejinArticle(data gjson.Result) error {

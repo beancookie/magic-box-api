@@ -6,6 +6,7 @@ import (
 	"github.com/BeanCookie/magic-box-api/pkg/setting"
 	"github.com/BeanCookie/magic-box-api/service/csdn_service"
 	"github.com/BeanCookie/magic-box-api/service/juejin_service"
+	"github.com/BeanCookie/magic-box-api/service/weibo_service"
 	"github.com/robfig/cron/v3"
 	"github.com/rs/zerolog/log"
 )
@@ -23,7 +24,8 @@ func (j ArticleJob) Run() {
 
 func Setup() {
 	c := cron.New(cron.WithSeconds())
-	ArticleJob{}.Run()
+	// ArticleJob{}.Run()
 	c.AddJob(setting.AppSetting.ScheduleCron, ArticleJob{})
 	c.Start()
+	weibo_service.ParseRealtimehot()
 }
