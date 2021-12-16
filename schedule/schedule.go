@@ -18,14 +18,14 @@ func (j ArticleJob) Run() {
 	csdn := setting.ThirdPartysSetting.Csdn
 	juejin_service.ParseArticles(juejin)
 	csdn_service.ParseArticles(csdn)
+	weibo_service.ParseRealtimehot()
 
 	log.Info().Msgf("run article job %v", time.Now())
 }
 
 func Setup() {
 	c := cron.New(cron.WithSeconds())
-	// ArticleJob{}.Run()
+	ArticleJob{}.Run()
 	c.AddJob(setting.AppSetting.ScheduleCron, ArticleJob{})
 	c.Start()
-	weibo_service.ParseRealtimehot()
 }

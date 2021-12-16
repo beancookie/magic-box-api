@@ -23,6 +23,7 @@ func InitRouter() *gin.Engine {
 	// apiv1.Use(jwt.JWT())
 	{
 		apiv1.GET("/articles", v1.GetArticles)
+		apiv1.GET("/hot-news", v1.GetHotNews)
 	}
 
 	return r

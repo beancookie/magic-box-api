@@ -10,12 +10,17 @@ import (
 const WEIBO = "weibo"
 
 type HotNew struct {
-	ID       	string  `gorm:"primary_key" json:"id"`
-	OnboardTime int 	`json:"onboard_time"`
-	RawHot 		int 	`json:"raw_hot"`
-	Category 	string 	`json:"category"`
-	KeyWord 	string 	`json:"key_word"`
-	Content 	string 	`json:"content"`
+	Model
+
+	ID       		string  `gorm:"primary_key" json:"id"`
+	OnboardTime 	int 	`json:"onboard_time"`
+	RawHot 			int 	`json:"raw_hot"`
+	Category 		string 	`json:"category"`
+	KeyWord 		string 	`json:"key_word"`
+	CoverImage 		string 	`json:"cover_image"`
+	Content 		string 	`json:"content"`
+	BriefContent 	string 	`json:"brief_content"`
+	Platform 		string 	`json:"platform"`
 }
 
 func ExistHotNewByIdAndPlatform(id string, platform string) (bool, error) {
@@ -38,12 +43,33 @@ func AddWeiboHotNew(data gjson.Result) error {
 		RawHot: int(data.Get("raw_hot").Int()),
 		Category: data.Get("category").String(),
 		KeyWord: data.Get("word").String(),
+		CoverImage: data.Get("mblog").Get("page_info").Get("page_pic").String(),
 		Content: data.Get("mblog").Get("text").String(),
+		BriefContent: data.Get("mblog").Get("page_info").Get("content2").String(),
+		Platform:   WEIBO,
 	}
 	if err := db.Create(&hotNew).Error; err != nil {
 		log.Info().Msgf("%v", hotNew)
 		return err
 	}
 	return nil
+}
+
+func GetHotNews(page int, size int, maps interface{}) ([]*HotNew, error) {
+	var hotNews []*HotNew
+	err := db.Where(maps).Offset(page).Limit(size).Find(&hotNews).Error
+
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, err
+	}
+	return hotNews, nil
+}
+
+func GetHotNewTotal(maps interface{}) (uint, error) {
+	var total uint
+	if err := db.Model(&HotNew{}).Where(maps).Count(&total).Error; err != nil {
+		return 0, err
+	}
+	return total, nil
 }
 
