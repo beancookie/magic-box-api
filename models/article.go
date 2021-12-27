@@ -97,7 +97,7 @@ func ExistArticleByTitleAndPlatform(title string, platform string) (bool, error)
 
 func GetArticles(page int, size int, maps interface{}) ([]*Article, error) {
 	var articles []*Article
-	err := db.Where(maps).Offset(page).Limit(size).Find(&articles).Error
+	err := db.Where(maps).Offset(page).Limit(size).Order("created_on desc").Find(&articles).Error
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err

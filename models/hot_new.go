@@ -57,7 +57,7 @@ func AddWeiboHotNew(data gjson.Result) error {
 
 func GetHotNews(page int, size int, maps interface{}) ([]*HotNew, error) {
 	var hotNews []*HotNew
-	err := db.Where(maps).Offset(page).Limit(size).Find(&hotNews).Error
+	err := db.Where(maps).Offset(page).Limit(size).Order("created_on desc").Find(&hotNews).Error
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err

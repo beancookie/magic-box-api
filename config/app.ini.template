@@ -1,11 +1,13 @@
 [app]
 PageSize = 10
 JwtSecret = 233
+TLSPath = 
+TLSName = 
 ScheduleCron = 0 */1 * * * *
 
 [server]
 RunMode = debug # debug or release
-HttpPort = 8000
+HttpPort = 80
 ReadTimeout = 60
 WriteTimeout = 60
 

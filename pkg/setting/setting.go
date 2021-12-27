@@ -10,6 +10,8 @@ import (
 type App struct {
 	JwtSecret    string
 	PageSize     int
+	TLSPath      string
+	TLSName      string
 	ScheduleCron string
 }
 
@@ -18,6 +20,7 @@ var AppSetting = &App{}
 type Server struct {
 	RunMode      string
 	HttpPort     int
+	HttpsPort    int
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 }
