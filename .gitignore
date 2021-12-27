@@ -4,5 +4,7 @@ runtime/
 tmp/
 docs/
 config/*.ini
+config/*.key
+config/*.pem
 
 magic-box-api
