@@ -1,6 +1,6 @@
 FROM golang:alpine AS builder
 
-RUN mkdir /app
+ARG VERSION=dev
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN go mod download
 ADD . .
 
 ENV GO111MODULE=on
-RUN GOOS=linux GOARCH=amd64 go build -o main main.go
+RUN GOOS=linux GOARCH=amd64 go build -o main -ldflags=-X=main.version=${VERSION} main.go
 
 
 FROM alpine:latest
