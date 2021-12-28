@@ -19,8 +19,8 @@ jobs:
       id: version_step
       run: |
         echo "##[set-output name=version;]VERSION=${GITHUB_REF#$"refs/tags/v"}"
-        echo "##[set-output name=version_tag;]${GITHUB_REF#$"refs/tags/v"}"
-        echo "##[set-output name=latest_tag;]latest"
+        echo "##[set-output name=version_tag;]${{ secrets.DOCKERHUB_USERNAME }}:${GITHUB_REF#$"refs/tags/v"}"
+        echo "##[set-output name=latest_tag;]${{ secrets.DOCKERHUB_USERNAME }}:latest"
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
