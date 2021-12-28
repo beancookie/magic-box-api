@@ -23,7 +23,10 @@ jobs:
         echo "::set-output name=version::${GITHUB_REF#$"refs/tags/v"}"
         echo "::set-output name=version_tag::$REPOSITORY_NAME:${GITHUB_REF#$"refs/tags/v"}"
         echo "::set-output name=latest_tag::$REPOSITORY_NAME:latest"
-
+    
+    - name: Checkout
+      uses: actions/checkout@v2
+    
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
 
