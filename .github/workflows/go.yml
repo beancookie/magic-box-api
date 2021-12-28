@@ -21,8 +21,8 @@ jobs:
         REPOSITORY_NAME: luzhong256
       run: |
         echo "::set-output name=version::${GITHUB_REF#$"refs/tags/v"}"
-        echo "::set-output name=version_tag::$REPOSITORY_NAME:${GITHUB_REF#$"refs/tags/v"}"
-        echo "::set-output name=latest_tag::$REPOSITORY_NAME:latest"
+        echo "::set-output name=version_tag::$GITHUB_REPOSITORY:${GITHUB_REF#$"refs/tags/v"}"
+        echo "::set-output name=latest_tag::$GITHUB_REPOSITORY:latest"
     
     - name: Checkout
       uses: actions/checkout@v2
@@ -49,8 +49,6 @@ jobs:
       id: docker_build
       uses: docker/build-push-action@v2
       with:
-        context: .
-        file: ./Dockerfile
         push: true
         tags: |
           ${{ env.VERSION_TAG }}
