@@ -17,10 +17,12 @@ jobs:
     steps:
     - name: Extract Version
       id: version_step
+      env:
+        REPOSITORY_NAME: luzhong256
       run: |
         echo "##[set-output name=version;]VERSION=${GITHUB_REF#$"refs/tags/v"}"
-        echo "##[set-output name=version_tag;]#$"luzhong256":${GITHUB_REF#$"refs/tags/v"}"
-        echo "##[set-output name=latest_tag;]#$"luzhong256":latest"
+        echo "##[set-output name=version_tag;]$REPOSITORY_NAME:${GITHUB_REF#$"refs/tags/v"}"
+        echo "##[set-output name=latest_tag;]$REPOSITORY_NAME:latest"
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
