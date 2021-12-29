@@ -24,7 +24,7 @@ func ParseArticles(url string) {
 
 	res, err := client.R().
 		SetHeader("Content-Type", "application/json").
-		SetBody(`{"cate_id": "6809637772874219534", "limit": 200}`).
+		SetBody(`{"sort_type": 3, "limit": 20}`).
 		Post(url)
 
 	if err != nil {
