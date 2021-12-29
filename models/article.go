@@ -42,7 +42,7 @@ func AddJuejinArticle(data gjson.Result) error {
 		Platform:     JUEJIN,
 	}
 	if err := db.Create(&article).Error; err != nil {
-		log.Info().Msgf("%v", article)
+		log.Info().Msgf("%v %v", article, err)
 		return err
 	}
 	return nil
@@ -65,7 +65,7 @@ func AddCsdnArticle(data gjson.Result) error {
 		Platform:   CSDN,
 	}
 	if err := db.Create(&article).Error; err != nil {
-		log.Info().Msgf("%v", article)
+		log.Info().Msgf("%v %v", article, err)
 		return err
 	}
 	return nil

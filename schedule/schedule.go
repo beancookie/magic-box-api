@@ -25,7 +25,7 @@ func (j ArticleJob) Run() {
 
 func Setup() {
 	c := cron.New(cron.WithSeconds())
-	// ArticleJob{}.Run()
+	go ArticleJob{}.Run()
 	c.AddJob(setting.AppSetting.ScheduleCron, ArticleJob{})
 	c.Start()
 }
