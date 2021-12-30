@@ -12,6 +12,7 @@ import (
 	"github.com/BeanCookie/magic-box-api/pkg/setting"
 	"github.com/BeanCookie/magic-box-api/pkg/util"
 	"github.com/BeanCookie/magic-box-api/routers"
+	"github.com/BeanCookie/magic-box-api/schedule"
 )
 
 func init() {
@@ -19,7 +20,7 @@ func init() {
 	util.SetupJwt()
 	models.Setup()
 	gredis.Setup()
-	// schedule.Setup()
+	schedule.Setup()
 }
 
 // @title Golang Gin API

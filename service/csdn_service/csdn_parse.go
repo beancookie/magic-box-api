@@ -26,11 +26,13 @@ func ParseArticles(url string) {
 		resJson.Get(DATA).ForEach(func(index, article gjson.Result) bool {
 			articleDetailUrl := article.Get("articleDetailUrl").String()
 			id := util.ParseCsdnId(articleDetailUrl)
-			existed, _ := models.ExistArticleByIdAndPlatform(id, models.CSDN)
-			if !existed {
+			existedArticle, _ := models.ExistArticleByIdAndPlatform(id, models.CSDN)
+			if existedArticle.ID != "" {
 				if article.Value() != nil {
 					models.AddCsdnArticle(article)
 				}
+			} else {
+				models.UpdateCsdnArticle(existedArticle, article)
 			}
 			return true
 		})

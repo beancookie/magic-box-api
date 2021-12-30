@@ -19,6 +19,7 @@ type Article struct {
 	BriefContent string `json:"brief_content"`
 	CollectCount int    `json:"collect_count"`
 	CommentCount int    `json:"comment_count"`
+	ViewCount    int    `json:"view_count"`
 
 	UserID   string `json:"user_id"`
 	UserName string `json:"user_name"`
@@ -47,6 +48,7 @@ func AddJuejinArticle(data gjson.Result) error {
 		BriefContent: data.Get("brief_content").String(),
 		CollectCount: int(data.Get("collect_count").Int()),
 		CommentCount: int(data.Get("comment_count").Int()),
+		ViewCount:    int(data.Get("view_count").Int()),
 		Platform:     JUEJIN,
 	}
 	if err := db.Create(&article).Error; err != nil {
@@ -54,6 +56,16 @@ func AddJuejinArticle(data gjson.Result) error {
 		return err
 	}
 	return nil
+}
+
+func UpdateJuejinArticle(article Article, data gjson.Result) {
+	updateArticle := Article{CollectCount: int(data.Get("collect_count").Int()), CommentCount: int(data.Get("comment_count").Int()), ViewCount: int(data.Get("view_count").Int())}
+	db.Model(&article).Select("CollectCount", "CommentCount", "ViewCount").Updates(updateArticle)
+}
+
+func UpdateCsdnArticle(article Article, data gjson.Result) {
+	updateArticle := Article{CollectCount: int(data.Get("favorCount").Int()), CommentCount: int(data.Get("commentCount").Int()), ViewCount: int(data.Get("viewCount").Int())}
+	db.Model(&article).Select("CollectCount", "CommentCount", "ViewCount").Updates(updateArticle)
 }
 
 func AddCsdnArticle(data gjson.Result) error {
@@ -66,11 +78,14 @@ func AddCsdnArticle(data gjson.Result) error {
 	id := util.ParseCsdnId(data.Get("articleDetailUrl").String())
 
 	article := Article{
-		ID:         id,
-		Title:      data.Get("articleTitle").String(),
-		UserName:   data.Get("userName").String(),
-		CoverImage: coverImage,
-		Platform:   CSDN,
+		ID:           id,
+		Title:        data.Get("articleTitle").String(),
+		UserName:     data.Get("userName").String(),
+		CollectCount: int(data.Get("favorCount").Int()),
+		CommentCount: int(data.Get("commentCount").Int()),
+		ViewCount:    int(data.Get("viewCount").Int()),
+		CoverImage:   coverImage,
+		Platform:     CSDN,
 	}
 	if err := db.Create(&article).Error; err != nil {
 		log.Info().Msgf("%v %v", article, err)
@@ -79,16 +94,13 @@ func AddCsdnArticle(data gjson.Result) error {
 	return nil
 }
 
-func ExistArticleByIdAndPlatform(id string, platform string) (bool, error) {
+func ExistArticleByIdAndPlatform(id string, platform string) (Article, error) {
 	var article Article
 	err := db.Select("id").Where("id = ? AND platform = ? AND deleted_on = ? ", id, platform, 0).First(&article).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return false, err
+		return article, err
 	}
-	if article.ID != "" {
-		return true, nil
-	}
-	return false, nil
+	return article, nil
 }
 
 func ExistArticleByTitleAndPlatform(title string, platform string) (bool, error) {
