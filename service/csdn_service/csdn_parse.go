@@ -27,12 +27,10 @@ func ParseArticles(url string) {
 			articleDetailUrl := article.Get("articleDetailUrl").String()
 			id := util.ParseCsdnId(articleDetailUrl)
 			existedArticle, _ := models.FirstArticleByIdAndPlatform(id, models.CSDN)
-			if existedArticle.ID == "" {
-				if article.Value() != nil {
-					models.AddCsdnArticle(article)
-				}
-			} else {
+			if existedArticle.ID != "" {
 				models.UpdateCsdnArticle(existedArticle, article)
+			} else {
+				models.AddCsdnArticle(article)
 			}
 			return true
 		})

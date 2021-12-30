@@ -34,13 +34,13 @@ func ParseArticles(url string) {
 	if resJson.Get(ERR_NO).Int() == 0 {
 		resJson.Get(DATA).ForEach(func(index, value gjson.Result) bool {
 			article := value.Get(ITEM_INFO).Get(ARTICLE_INFO)
-			existedArticle, _ := models.FirstArticleByIdAndPlatform(article.Get(ARTICLE_ID).String(), models.JUEJIN)
-			if existedArticle.ID == "" {
-				if article.Value() != nil {
+			if article.Value() != nil {
+				existedArticle, _ := models.FirstArticleByIdAndPlatform(article.Get(ARTICLE_ID).String(), models.JUEJIN)
+				if existedArticle.ID != "" {
+					models.UpdateJuejinArticle(existedArticle, article)
+				} else {
 					models.AddJuejinArticle(article)
 				}
-			} else {
-				models.UpdateJuejinArticle(existedArticle, article)
 			}
 			return true
 		})

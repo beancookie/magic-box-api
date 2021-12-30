@@ -96,7 +96,7 @@ func AddCsdnArticle(data gjson.Result) error {
 
 func FirstArticleByIdAndPlatform(id string, platform string) (Article, error) {
 	var article Article
-	err := db.Select("*").Where("id = ? AND platform = ? AND deleted_on = ? ", id, platform, 0).First(&article).Error
+	err := db.Select("id").Where("id = ? AND platform = ? AND deleted_on = ? ", id, platform, 0).First(&article).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return article, err
 	}
