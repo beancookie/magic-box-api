@@ -34,7 +34,7 @@ func ParseArticles(url string) {
 	if resJson.Get(ERR_NO).Int() == 0 {
 		resJson.Get(DATA).ForEach(func(index, value gjson.Result) bool {
 			article := value.Get(ITEM_INFO).Get(ARTICLE_INFO)
-			existedArticle, _ := models.ExistArticleByIdAndPlatform(article.Get(ARTICLE_ID).String(), models.JUEJIN)
+			existedArticle, _ := models.FirstArticleByIdAndPlatform(article.Get(ARTICLE_ID).String(), models.JUEJIN)
 			if existedArticle.ID == "" {
 				if article.Value() != nil {
 					models.AddJuejinArticle(article)

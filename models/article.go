@@ -52,24 +52,20 @@ func AddJuejinArticle(data gjson.Result) error {
 		Platform:     JUEJIN,
 	}
 	if err := db.Create(&article).Error; err != nil {
-		log.Info().Msgf("%v %v", article, err)
+		log.Error().Msgf("%v %v", article, data, err)
 		return err
 	}
 	return nil
 }
 
 func UpdateJuejinArticle(article Article, data gjson.Result) {
-	log.Info().Msgf("UpdateJuejinArticle %v %v", article, data)
-
 	updateArticle := Article{CollectCount: int(data.Get("collect_count").Int()), CommentCount: int(data.Get("comment_count").Int()), ViewCount: int(data.Get("view_count").Int())}
-	db.Model(&article).Select("CollectCount", "CommentCount", "ViewCount").Updates(updateArticle)
+	db.Model(&article).Select("collect_count", "comment_count", "view_count").Updates(updateArticle)
 }
 
 func UpdateCsdnArticle(article Article, data gjson.Result) {
-	log.Info().Msgf("UpdateCsdnArticle %v %v", article, data)
-
 	updateArticle := Article{CollectCount: int(data.Get("favorCount").Int()), CommentCount: int(data.Get("commentCount").Int()), ViewCount: int(data.Get("viewCount").Int())}
-	db.Model(&article).Select("CollectCount", "CommentCount", "ViewCount").Updates(updateArticle)
+	db.Model(&article).Select("collect_count", "comment_count", "view_count").Updates(updateArticle)
 }
 
 func AddCsdnArticle(data gjson.Result) error {
@@ -92,15 +88,15 @@ func AddCsdnArticle(data gjson.Result) error {
 		Platform:     CSDN,
 	}
 	if err := db.Create(&article).Error; err != nil {
-		log.Info().Msgf("%v %v", article, err)
+		log.Error().Msgf("%v %v", article, err)
 		return err
 	}
 	return nil
 }
 
-func ExistArticleByIdAndPlatform(id string, platform string) (Article, error) {
+func FirstArticleByIdAndPlatform(id string, platform string) (Article, error) {
 	var article Article
-	err := db.Select("id").Where("id = ? AND platform = ? AND deleted_on = ? ", id, platform, 0).First(&article).Error
+	err := db.Select("*").Where("id = ? AND platform = ? AND deleted_on = ? ", id, platform, 0).First(&article).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return article, err
 	}
