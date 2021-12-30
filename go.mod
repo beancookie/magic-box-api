@@ -19,6 +19,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/rbrahul/gofp v1.0.1
 	github.com/robfig/cron/v3 v3.0.0
 	github.com/rs/zerolog v1.26.0
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18 // indirect

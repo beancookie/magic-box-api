@@ -15,9 +15,10 @@ import (
 var db *gorm.DB
 
 type Model struct {
-	CreatedOn  int `json:"created_on"`
-	ModifiedOn int `json:"modified_on"`
-	DeletedOn  int `json:"deleted_on"`
+	CreatedOn  int    `json:"created_on"`
+	ParstTime  string `gorm:"-" json:"parst_time"`
+	ModifiedOn int    `json:"modified_on"`
+	DeletedOn  int    `json:"deleted_on"`
 }
 
 // Setup initializes the database instance

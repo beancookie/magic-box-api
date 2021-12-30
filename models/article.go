@@ -30,6 +30,14 @@ type Article struct {
 	Platform string `json:"platform"`
 }
 
+func MapArticle(items []*Article, fn func(index int, item *Article) *Article) []*Article {
+	mappedItems := []*Article{}
+	for index, value := range items {
+		mappedItems = append(mappedItems, fn(index, value))
+	}
+	return mappedItems
+}
+
 func AddJuejinArticle(data gjson.Result) error {
 	log.Info().Msgf("add article %s", data.Get("title").String())
 	article := Article{
