@@ -59,11 +59,15 @@ func AddJuejinArticle(data gjson.Result) error {
 }
 
 func UpdateJuejinArticle(article Article, data gjson.Result) {
+	log.Info().Msgf("UpdateJuejinArticle %v %v", article, data)
+
 	updateArticle := Article{CollectCount: int(data.Get("collect_count").Int()), CommentCount: int(data.Get("comment_count").Int()), ViewCount: int(data.Get("view_count").Int())}
 	db.Model(&article).Select("CollectCount", "CommentCount", "ViewCount").Updates(updateArticle)
 }
 
 func UpdateCsdnArticle(article Article, data gjson.Result) {
+	log.Info().Msgf("UpdateCsdnArticle %v %v", article, data)
+
 	updateArticle := Article{CollectCount: int(data.Get("favorCount").Int()), CommentCount: int(data.Get("commentCount").Int()), ViewCount: int(data.Get("viewCount").Int())}
 	db.Model(&article).Select("CollectCount", "CommentCount", "ViewCount").Updates(updateArticle)
 }
