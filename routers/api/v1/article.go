@@ -31,6 +31,7 @@ func GetArticles(c *gin.Context) {
 	req := article_service.ArticleRequest{
 		PaginationRequest: app.PaginationRequest{Page: util.GetPage(c), Size: setting.AppSetting.PageSize},
 		Platform:          platform,
+		Title:             c.Query("title"),
 	}
 	list, total, _ := article_service.GetArticles(req)
 	data := make(map[string]interface{})

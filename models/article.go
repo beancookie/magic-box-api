@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/BeanCookie/magic-box-api/pkg/util"
 	"github.com/jinzhu/gorm"
 	"github.com/rs/zerolog/log"
@@ -24,9 +26,6 @@ type Article struct {
 	UserID   string `json:"user_id"`
 	UserName string `json:"user_name"`
 
-	// User   User   `json:"user"`
-
-	// CategoryID string   `json:"category_id"`
 	// Category   Category `json:"category"`
 	Platform string `json:"platform"`
 }
@@ -115,9 +114,15 @@ func ExistArticleByTitleAndPlatform(title string, platform string) (bool, error)
 	return false, nil
 }
 
-func GetArticles(page int, size int, maps interface{}) ([]*Article, error) {
+func GetArticles(page int, size int, maps map[string]interface{}) ([]*Article, error) {
 	var articles []*Article
-	err := db.Where(maps).Offset(page).Limit(size).Order("created_on desc").Find(&articles).Error
+	title, ok := maps["title"]
+	delete(maps, "title")
+	query := db.Debug().Where(maps)
+	if ok && title != "" {
+		query = query.Where("title LIKE ?", fmt.Sprintf("%s%v%s", "%", title, "%"))
+	}
+	err := query.Offset(page).Limit(size).Order("created_on desc").Find(&articles).Error
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
@@ -125,9 +130,15 @@ func GetArticles(page int, size int, maps interface{}) ([]*Article, error) {
 	return articles, nil
 }
 
-func GetArticleTotal(maps interface{}) (uint, error) {
+func GetArticleTotal(maps map[string]interface{}) (uint, error) {
 	var total uint
-	if err := db.Model(&Article{}).Where(maps).Count(&total).Error; err != nil {
+	title, ok := maps["title"]
+	delete(maps, "title")
+	query := db.Debug().Where(maps)
+	if ok && title != "" {
+		query = query.Where("title LIKE ?", fmt.Sprintf("%s%v%s", "%", title, "%"))
+	}
+	if err := query.Model(&Article{}).Where(maps).Count(&total).Error; err != nil {
 		return 0, err
 	}
 	return total, nil

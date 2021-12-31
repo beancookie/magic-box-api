@@ -9,12 +9,14 @@ import (
 type ArticleRequest struct {
 	app.PaginationRequest
 	Platform string
+	Title    string
 }
 
 func (req ArticleRequest) getMaps() map[string]interface{} {
 	maps := make(map[string]interface{})
 	maps["deleted_on"] = 0
 	maps["platform"] = req.Platform
+	maps["title"] = req.Title
 	return maps
 }
 
